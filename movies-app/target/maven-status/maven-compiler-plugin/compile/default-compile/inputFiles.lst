@@ -1,0 +1,4 @@
+/home/fedoftoum/DevHome/wiremock-for-java-developers/movies-app/src/main/java/com/learnwiremock/service/MoviesRestClient.java
+/home/fedoftoum/DevHome/wiremock-for-java-developers/movies-app/src/main/java/com/learnwiremock/exception/MovieErrorResponse.java
+/home/fedoftoum/DevHome/wiremock-for-java-developers/movies-app/src/main/java/com/learnwiremock/dto/Movie.java
+/home/fedoftoum/DevHome/wiremock-for-java-developers/movies-app/src/main/java/com/learnwiremock/constants/MovieAppConstants.java
