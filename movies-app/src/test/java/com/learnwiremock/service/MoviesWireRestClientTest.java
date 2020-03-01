@@ -88,4 +88,19 @@ public class MoviesWireRestClientTest {
         assertEquals("Batman Begins", movie.getName());
     }
 
+    @Test
+    void retrieveMovieById_responseTemplating() {
+        //given
+        stubFor(get(urlPathMatching("/movieservice/v1/movie/[0-9]"))
+                .willReturn(WireMock.aResponse()
+                        .withStatus(OK.value())
+                        .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .withBodyFile("movie-template.json")));
+        //when
+        Movie movie = moviesRestClient.retrieveMovieById(9);
+
+        //then
+        assertEquals("Batman Begins", movie.getName());
+        assertEquals(9, movie.getMovie_id());
+    }
 }
