@@ -28,9 +28,9 @@ public class MoviesRestClient {
      */
     public List<Movie> retrieveAllMovies() {
         String getAllMoviesUrl = GET_ALL_MOVIES_V1;
-        List<Movie> movieList;
+
         try {
-            movieList = webClient.get().uri(getAllMoviesUrl)
+            return webClient.get().uri(getAllMoviesUrl)
                     .retrieve() // actual call is made to the api
                     .bodyToFlux(Movie.class) //body is converted to flux(Represents multiple items)
                     .collectList() // collecting the httpResponse as a list\
@@ -42,14 +42,13 @@ public class MoviesRestClient {
             log.error("Exception - The Error Message is {} ", ex.getMessage());
             throw new MovieErrorResponse(ex);
         }
-        return movieList;
     }
 
     public Movie retrieveMovieById(Integer movieId) {
         String movieByIdURL =  MOVIE_BY_ID_PATH_PARAM_V1;
-        Movie movie;
+
         try {
-            movie = webClient.get().uri(movieByIdURL, movieId) //mapping the movie id to the url
+            return webClient.get().uri(movieByIdURL, movieId) //mapping the movie id to the url
                     .retrieve()
                     .bodyToMono(Movie.class) //body is converted to Mono(Represents single item)
                     .block();
@@ -60,20 +59,18 @@ public class MoviesRestClient {
             log.error("Exception - The Error Message is {} ", ex.getMessage());
             throw new MovieErrorResponse(ex);
         }
-        return movie;
     }
 
 
     public List<Movie> retrieveMovieByName(String movieName) {
 
-        List<Movie> movieList = null;
         String retrieveByNameUri = UriComponentsBuilder.fromUriString( MOVIE_BY_NAME_QUERY_PARAM_V1)
                 .queryParam("movie_name", movieName)
                 .buildAndExpand()
                 .toUriString();
 
         try {
-            movieList = webClient.get().uri(retrieveByNameUri)
+            return webClient.get().uri(retrieveByNameUri)
                     .retrieve()
                     .bodyToFlux(Movie.class)
                     .collectList()
@@ -85,7 +82,6 @@ public class MoviesRestClient {
             log.error("Exception - The Error Message is {} ", ex.getMessage());
             throw new MovieErrorResponse(ex);
         }
-        return movieList;
     }
 
 
@@ -100,10 +96,9 @@ public class MoviesRestClient {
                 .queryParam("year", year)
                 .buildAndExpand()
                 .toUriString();
-        List<Movie> movieList;
 
         try {
-            movieList = webClient.get().uri(retrieveByYearUri)
+            return webClient.get().uri(retrieveByYearUri)
                     .retrieve()
                     .bodyToFlux(Movie.class)
                     .collectList()
@@ -115,7 +110,6 @@ public class MoviesRestClient {
             log.error("Exception - The Error Message is {} ", ex.getMessage());
             throw new MovieErrorResponse(ex);
         }
-        return movieList;
     }
 
     /**
@@ -125,15 +119,15 @@ public class MoviesRestClient {
      * @return
      */
     public Movie addNewMovie(Movie newMovie) {
-        Movie movie;
 
         try {
-            movie = webClient.post().uri( ADD_MOVIE_V1)
+            Movie movie = webClient.post().uri( ADD_MOVIE_V1)
                     .syncBody(newMovie)
                     .retrieve()
                     .bodyToMono(Movie.class)
                     .block();
             log.info("New Movie SuccessFully addded {} ", movie);
+            return movie;
         } catch (WebClientResponseException ex) {
             log.error("WebClientResponseException - Error Message is : {} , and the Error Response Body is {}", ex, ex.getResponseBodyAsString());
             throw new MovieErrorResponse(ex.getStatusText(), ex);
@@ -141,19 +135,17 @@ public class MoviesRestClient {
             log.error("Exception - The Error Message is {} ", ex.getMessage());
             throw new MovieErrorResponse(ex);
         }
-        return movie;
     }
 
     public Movie updateMovie(Integer movieId, Movie movie) {
-        Movie updatedMovie;
-
         try {
-            updatedMovie = webClient.put().uri( MOVIE_BY_ID_PATH_PARAM_V1, movieId)
+            Movie updatedMovie = webClient.put().uri( MOVIE_BY_ID_PATH_PARAM_V1, movieId)
                     .syncBody(movie)
                     .retrieve()
                     .bodyToMono(Movie.class)
                     .block();
             log.info(" Movie SuccessFully updated {} ", updatedMovie);
+            return updatedMovie;
         } catch (WebClientResponseException ex) {
             log.error("WebClientResponseException - Error Message is : {}", ex, ex.getResponseBodyAsString());
             throw new MovieErrorResponse(ex.getStatusText(), ex);
@@ -161,27 +153,20 @@ public class MoviesRestClient {
             log.error("Exception - The Error Message is {} ", ex.getMessage());
             throw new MovieErrorResponse(ex);
         }
-
-        return updatedMovie;
     }
 
     public String deleteMovieById(Integer movieId) {
-
-        String response;
         try {
-            response = webClient.delete().uri( MOVIE_BY_ID_PATH_PARAM_V1, movieId)
+            return webClient.delete().uri( MOVIE_BY_ID_PATH_PARAM_V1, movieId)
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
-        }catch (WebClientResponseException ex) {
+        } catch (WebClientResponseException ex) {
             log.error("WebClientResponseException - Error Message is : {}", ex, ex.getResponseBodyAsString());
             throw new MovieErrorResponse(ex.getStatusText(), ex);
         } catch (Exception ex) {
             log.error("Exception - The Error Message is {} ", ex.getMessage());
             throw new MovieErrorResponse(ex);
         }
-
-        return response;
-
     }
 }
