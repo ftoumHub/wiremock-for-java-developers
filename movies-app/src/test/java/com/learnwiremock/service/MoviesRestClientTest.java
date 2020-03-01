@@ -247,8 +247,6 @@ public class MoviesRestClientTest {
         //then
         String updatedCastName = "Christian Bale, Heath Ledger , Michael Caine, Tom Hardy";
         assertTrue(updatedMovie.getCast().contains(darkNightRisesCrew));
-
-
     }
 
     @Test
