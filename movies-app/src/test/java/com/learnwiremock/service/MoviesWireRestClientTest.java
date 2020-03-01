@@ -16,6 +16,7 @@ import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.learnwiremock.constants.MovieAppConstants.GET_ALL_MOVIES_V1;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
@@ -42,7 +43,6 @@ public class MoviesWireRestClientTest {
 
     @Test
     void retrieveAllMoviesFromAnyUrl() {
-
         //given
         stubFor(get(anyUrl())
             .willReturn(WireMock.aResponse()
@@ -60,7 +60,6 @@ public class MoviesWireRestClientTest {
 
     @Test
     void retrieveAllMovies_matchesUrl() {
-
         //given
         stubFor(get(urlPathEqualTo(GET_ALL_MOVIES_V1))
                 .willReturn(WireMock.aResponse()
@@ -71,7 +70,22 @@ public class MoviesWireRestClientTest {
         List<Movie> movieList = moviesRestClient.retrieveAllMovies();
 
         //then
-        assertTrue(!movieList.isEmpty());
+        assertTrue(movieList.size() > 0);
+    }
+
+    @Test
+    void retrieveMovieById() {
+        //given
+        stubFor(get(urlPathEqualTo("/movieservice/v1/movie/1"))
+                .willReturn(WireMock.aResponse()
+                        .withStatus(OK.value())
+                        .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .withBodyFile("movie.json")));
+        //when
+        Movie movie = moviesRestClient.retrieveMovieById(1);
+
+        //then
+        assertEquals("Batman Begins", movie.getName());
     }
 
 }
