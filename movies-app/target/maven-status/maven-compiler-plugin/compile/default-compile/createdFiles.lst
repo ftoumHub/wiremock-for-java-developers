@@ -1,5 +1,0 @@
-com/learnwiremock/constants/MovieAppConstants.class
-com/learnwiremock/exception/MovieErrorResponse.class
-com/learnwiremock/dto/Movie.class
-com/learnwiremock/dto/Movie$MovieBuilder.class
-com/learnwiremock/service/MoviesRestClient.class
