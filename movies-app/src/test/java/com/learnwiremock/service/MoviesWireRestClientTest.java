@@ -15,7 +15,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.learnwiremock.constants.MovieAppConstants.GET_ALL_MOVIES_V1;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 
 public class MoviesWireRestClientTest {
@@ -37,13 +41,13 @@ public class MoviesWireRestClientTest {
     }
 
     @Test
-    void retrieveAllMovies() {
+    void retrieveAllMoviesFromAnyUrl() {
 
         //given
         stubFor(get(anyUrl())
             .willReturn(WireMock.aResponse()
-                .withStatus(HttpStatus.OK.value())
-                .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .withStatus(OK.value())
+                .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .withBodyFile("all-movies.json")));
 
         //when
@@ -58,14 +62,13 @@ public class MoviesWireRestClientTest {
     void retrieveAllMovies_matchesUrl() {
 
         //given
-        stubFor(get(urlPathEqualTo(MovieAppConstants.GET_ALL_MOVIES_V1))
+        stubFor(get(urlPathEqualTo(GET_ALL_MOVIES_V1))
                 .willReturn(WireMock.aResponse()
-                        .withStatus(HttpStatus.OK.value())
-                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withStatus(OK.value())
+                        .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                         .withBodyFile("all-movies.json")));
         //when
         List<Movie> movieList = moviesRestClient.retrieveAllMovies();
-        System.out.println("movieList : " + movieList);
 
         //then
         assertTrue(!movieList.isEmpty());
