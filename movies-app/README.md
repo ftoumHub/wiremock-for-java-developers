@@ -2,6 +2,9 @@
 
 -   This is a application which connects to the Movies RESTFUL Service.
 
+Copier le jar wiremock-extension-0.4.0.jar à l'emplacement :
+/Users/75774p/.m2/repository/com/github/JensPiegsa/wiremock-extension/0.4.0
+
 ## How to enable JUnit5?
 
 -   Please make the below changes to enable JUnit5 in your project.

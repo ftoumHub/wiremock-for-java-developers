@@ -1,9 +1,9 @@
 package com.learnwiremock.service;
 
+import com.github.jenspiegsa.wiremockextension.WireMockExtension;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.learnwiremock.constants.MovieAppConstants;
 import com.learnwiremock.dto.Movie;
-import libs.wiremock.WireMockExtension;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.http.HttpHeaders;
@@ -30,8 +30,8 @@ public class MoviesWireRestClientTest {
 
     private static int port = SocketUtils.findAvailableTcpPort();
 
-    @RegisterExtension
-    static WireMockExtension server = new WireMockExtension(port);
+    //@RegisterExtension
+    //static WireMockExtension server = new WireMockExtension(port);
 
     @BeforeEach
     void setUp() {
