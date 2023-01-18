@@ -43,10 +43,10 @@ public class MoviesRestClientServerFaultTest {
 
     TcpClient tcpClient = TcpClient.create()
             .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
-            .doOnConnected(connection -> {
+            .doOnConnected(connection ->
                 connection.addHandlerLast(new ReadTimeoutHandler(5))
-                        .addHandlerLast(new WriteTimeoutHandler(5));
-            });
+                        .addHandlerLast(new WriteTimeoutHandler(5))
+            );
 
     @BeforeEach
     void setUp() {

@@ -12,6 +12,9 @@ import java.util.function.Supplier;
 
 import static com.learnwiremock.constants.MovieAppConstants.*;
 
+/**
+ * Client de l'API Movie.
+ */
 @Slf4j
 public class MoviesRestClient {
 
@@ -23,6 +26,7 @@ public class MoviesRestClient {
 
     public List<Movie> retrieveAllMovies() {
         return withExceptionHandling(
+                // http://localhost:8088/movieservice/v1/allMovies
                 () -> webClient.get().uri(GET_ALL_MOVIES_V1)
                         .retrieve() // actual call is made to the api
                         .bodyToFlux(Movie.class) //body is converted to flux(Represents multiple items)
@@ -107,7 +111,7 @@ public class MoviesRestClient {
                 });
     }
 
-    public String deleteMovieById(Integer movieId) {
+    public String deleteMovie(Integer movieId) {
         return withExceptionHandling(
                 () -> webClient.delete()
                         .uri( MOVIE_BY_ID_PATH_PARAM_V1, movieId)
